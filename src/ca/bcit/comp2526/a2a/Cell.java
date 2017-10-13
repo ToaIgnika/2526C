@@ -103,6 +103,31 @@ public class Cell extends JPanel{
         return surround;
     }
     
+    public int getPlantCount(Cell[] arr) {
+        if (arr.length == 3) {
+            return 0;
+        }
+        int count = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].getUser() instanceof Plant) {
+                count ++;
+            }
+        }
+        return count;
+    }
+    
+    public int getEmptyCount(Cell[] arr) {
+        if (arr.length == 3) {
+            return 0;
+        }
+        int count = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].getUser() instanceof Empty) {
+                count ++;
+            }
+        }
+        return count;
+    }
     
     public void setUser(Object j) {
         cellUser = j;

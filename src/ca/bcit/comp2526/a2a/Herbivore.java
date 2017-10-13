@@ -1,6 +1,7 @@
 package ca.bcit.comp2526.a2a;
 
 import java.awt.Color;
+import java.util.Random;
 
 public class Herbivore {
     private Cell home;
@@ -35,9 +36,52 @@ public class Herbivore {
     }
 
     public void move() {
-       
+        int plantCount;
+        int emptyCount;
+        int randomCount;
+        int randomCheck;
+        Random rand = new Random();
+        Cell[] adjCells;
+        adjCells = home.getAdjacentCells();
+        plantCount = home.getPlantCount(adjCells);
+        emptyCount = home.getEmptyCount(adjCells);
+        // eat plant if can
+        if (plantCount > 0) {
+            randomCount = 0;
+            randomCheck = rand.nextInt(plantCount)+1;
+            for (int i = 0; randomCount <= randomCheck; i++) {
+                if (adjCells[i].getUser() instanceof Plant) {
+                    randomCount ++;
+                }
+                if(randomCount == randomCheck) {
+                    this.setMoved(true);
+                    new Empty(home);
+                    this.setCell(adjCells[i]);
+                    this.resetLife();
+                    break;
+                }
+            }
+        }
+        // move if can
+        else if (emptyCount > 0) {
+            randomCount = 0;
+            randomCheck = rand.nextInt(emptyCount)+1;
+            for (int i = 0; randomCount <= randomCheck; i++) {
+                if (adjCells[i].getUser() instanceof Empty) {
+                    randomCount ++;
+                }
+                if(randomCount == randomCheck) {
+                    this.setMoved(true);
+                    new Empty(home);
+                    this.setCell(adjCells[i]);
+                    break;
+                }
+            }
+        } else {
+            
+        }
     }
-
+    
     public boolean getMoved() {
         return hasMoved;
     }
