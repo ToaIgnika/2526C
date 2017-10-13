@@ -1,6 +1,5 @@
 package ca.bcit.comp2526.a2a;
 
-import java.awt.*;
 import java.util.Random;
 
 public class World {
@@ -91,6 +90,7 @@ public class World {
                     adjCells = cellTable[r][c].getAdjacentCells();
                     plantCount = getPlantCount(adjCells);
                     emptyCount = getEmptyCount(adjCells);
+                    // eat plant if can
                     if (plantCount > 0) {
                         randomCount = 0;
                         randomCheck = rand.nextInt(plantCount)+1;
@@ -107,6 +107,7 @@ public class World {
                             }
                         }
                     }
+                    // move if can
                     else if (emptyCount > 0) {
                         randomCount = 0;
                         randomCheck = rand.nextInt(emptyCount)+1;
@@ -155,91 +156,6 @@ public class World {
         return count;
     }
     
-    /**
-     * public void takeTurn() 1. removes dead herbivores, 2. checks each plant
-     * to see if it "seeds," and then 3. moves remaining living Herbivores one
-     * Cell (and they eat, if possible)
-     */
-    /*
-    public void takeTurn() {
-
-        // check each plant to see if it seeds
-        setCellWorld(); // initialize the arrays if neighbours
-        for (int r = 0; r < rowCount; r++) {
-            for (int c = 0; c < colCount; c++) {
-                if (typeToInt(cellTable[r][c]) == 1) {
-                    emptyCount = cellTable[r][c].getEmptyCount();
-                    plantCount = cellTable[r][c].getPlantCount();
-                    if (emptyCount >= 3 && plantCount >= 2) {
-                        randomPositionPlant(cellTable[r][c], 0, emptyCount);
-                    }
-                }
-            }
-        }
-        // move remaining living herbivores one cell
-        setCellWorld(); // initialize the arrays if neighbours
-        for (int r = 0; r < rowCount; r++) {
-            for (int c = 0; c < colCount; c++) {
-                if (typeToInt(cellTable[r][c]) == 2) {
-                    emptyCount = cellTable[r][c].getEmptyCount();
-                    plantCount = cellTable[r][c].getPlantCount();
-                    if (plantCount >= 1) {
-                        randomPositionHerbivore(cellTable[r][c], 1, plantCount);
-                    } else if (emptyCount >= 1) {
-                        randomPositionHerbivore(cellTable[r][c], 0, emptyCount);
-                    } else {
-                        
-                    }
-                }
-            }
-        }
-    }
-*/
-    
-    private int rowDecode(int i) {
-        switch (i) {
-        case 1:
-            return -1;
-        case 2:
-            return -1;
-        case 3:
-            return -1;
-        case 4:
-            return 0;
-        case 5:
-            return 0;
-        case 6:
-            return 1;
-        case 7:
-            return 1;
-        case 8:
-            return 1;
-        }
-        return 0;
-    }
-    
-    private int colDecode(int i) {
-        switch (i) {
-        case 1:
-            return -1;
-        case 2:
-            return 0;
-        case 3:
-            return 1;
-        case 4:
-            return 1;
-        case 5:
-            return 1;
-        case 6:
-            return 0;
-        case 7:
-            return -1;
-        case 8:
-            return -1;
-        }
-        return 0;
-    }
-    
     public int getRowCount() {
         return rowCount;
     }
@@ -248,122 +164,7 @@ public class World {
         return colCount;
     }
 
-    
-    /**
-     * Vital function to analyse each cell in the grid.
-     * 
-     * @param cell
-     *            of type Cell.
-     * @return integer array. UNDERSTANDING THE ARRAY: I
-     * NDEX[0] - type of cell:0-null, 1-plant, 2-herbivore 
-     * INDEX[1-8] - type of cell in nearber area 0-null, 1-plant, 2-herbivore 
-     * 1|2|3 
-     * 8|x|4 
-     * 7|6|5 
-     * INDEX[9] - count of plant cells 
-     * INDEX[10] - count of herbivore cells
-     * INDEX[11] -count of empty cells
-     
-    private void setCellWorld() {
-        Cell temp;
-        for (int r = 0; r < rowCount; r++) {
-            for (int c = 0; c < colCount; c++) {
-                temp = cellTable[r][c];
-                checkTopLeft(r,c,temp);
-                checkTopRight(r,c,temp);
-                checkBotLeft(r,c,temp);
-                checkBotRight(r,c,temp);
-            }
-        }
-    }
-    
-    
-     * Helper method to suppert cellWorld concept.
-     * @param cell of type Cell.
-     * @return int depending on class type.
-     
-    private int typeToInt(Cell cell) {
-        if (cell.getUser() == null) {
-            return 0;
-        } else if (cell.getUser() instanceof Plant) {
-            return 1;
-        } else if (cell.getUser() instanceof Herbivore) {
-            return 2;
-        } else {
-            return -1;
-        }
-    }
-    
-    private boolean checkTop(int r, int c, Cell cell) {
-        if (r == 0) {
-            cell.setSurround(-1, 2);
-            return false;
-        } 
-        cellTable[r - 1][c].setSurround(typeToInt(cell), 6);
-        return true;
-    }
-    
-    private boolean checkBot(int r, int c, Cell cell) {
-        if (r == rowCount-1) {
-            cell.setSurround(-1, 6);
-            return false;
-        } 
-        cellTable[r + 1][c].setSurround(typeToInt(cell), 2);
-        return true;
-    }
-    
-    private boolean checkLeft(int r, int c, Cell cell) {
-        if (c == 0) {
-            cell.setSurround(-1, 8);
-            return false;
-        } 
-        cellTable[r][c - 1].setSurround(typeToInt(cell), 4);
-        return true;
-    }
-    
-    private boolean checkRight(int r, int c, Cell cell) {
-        if (c == colCount-1) {
-            cell.setSurround(-1, 4);
-            return false;
-        } 
-        cellTable[r][c + 1].setSurround(typeToInt(cell), 8);
-        return true;
-    }
-    
-    private void checkTopLeft(int r, int c, Cell cell) {
-        if (checkTop(r,c,cell) && checkLeft(r,c,cell)) {
-            cellTable[r - 1][c - 1].setSurround(typeToInt(cell), 5);
-        } else {
-            cell.setSurround(-1, 1);
-        }
-    }
-    
-    private void checkTopRight(int r, int c, Cell cell) {
-        if (checkTop(r,c,cell) && checkRight(r,c,cell)) {
-            cellTable[r - 1][c + 1].setSurround(typeToInt(cell), 7);
-        } else {
-            cell.setSurround(-1, 3);
-        }
-    }
-    
-    private void checkBotLeft(int r, int c, Cell cell) {
-        if (checkBot(r,c,cell) && checkLeft(r,c,cell)) {
-            cellTable[r + 1][c - 1].setSurround(typeToInt(cell), 3);
-        } else {
-            cell.setSurround(-1, 7);
-        }
-    }
-    
-    private void checkBotRight(int r, int c, Cell cell) {
-        if (checkBot(r,c,cell) && checkRight(r,c,cell)) {
-            cellTable[r + 1][c + 1].setSurround(typeToInt(cell), 1);
-        } else {
-            cell.setSurround(-1, 5);
-        }
-    }
-    */
-    
-    public Cell getCellAt(final int row, final int col) {
+       public Cell getCellAt(final int row, final int col) {
         return cellTable[row][col];
     }
 }
