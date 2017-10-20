@@ -1,8 +1,19 @@
 package ca.bcit.comp2526.a2a;
 
-
+/**
+ * World.java.
+ * 
+ *
+ * "I made this code longer than usual 
+ * because I lack time to make it short"
+ * @author Yevhen
+ * @version Oct 19, 2017
+ *
+ */
 public class World {
 
+    
+    
     private int rowCount;
 
     private int colCount;
@@ -11,22 +22,29 @@ public class World {
 
     private int rnJesus;
 
-   
+   /**
+    * Constructor for world object.
+    * @param width of int.
+    * @param hight of int.
+    */
     public World(final int width, final int hight) {
         rowCount = hight;
         colCount = width;
     }
 
+    /**
+     * Initialize the world of cells.
+     */
     public void init() {
         cellTable = new Cell[rowCount][colCount];
         for (int r = 0; r < rowCount; r++) {
             for (int c = 0; c < colCount; c++) {
-                rnJesus = RandomGenerator.nextNumber(100);
-                if (rnJesus >= 80) {
+                rnJesus = RandomGenerator.nextNumber(Integer.valueOf("100"));
+                if (rnJesus >= Integer.valueOf("80")) {
                     cellTable[r][c] = new Cell(World.this, r, c);        
                     cellTable[r][c].setUser(new Herbivore(cellTable[r][c]));
                     cellTable[r][c].init();
-                } else if (rnJesus >= 50) {
+                } else if (rnJesus >= Integer.valueOf("50")) {
                     cellTable[r][c] = new Cell(World.this, r, c);        
                     cellTable[r][c].setUser(new Plant(cellTable[r][c]));
                     cellTable[r][c].init();
@@ -39,6 +57,9 @@ public class World {
         }
     }
 
+    /**
+     * Take turn method.
+     */
     public void takeTurn() {
         // step one - remove the dead animals
         for (int r = 0; r < rowCount; r++) {
@@ -46,7 +67,8 @@ public class World {
                 if (cellTable[r][c].getUser() instanceof Herbivore) {
                     ((Herbivore) cellTable[r][c].getUser()).decLife();
                     ((Herbivore) cellTable[r][c].getUser()).setMoved(false);
-                    if (((Herbivore) cellTable[r][c].getUser()).getLife() == 0) {
+                    if (((Herbivore) cellTable[r][c].getUser()).getLife() 
+                            == 0) {
                         cellTable[r][c].setUser(new Empty(cellTable[r][c]));
                     }
                 }
@@ -64,23 +86,38 @@ public class World {
         // step 3 - move the mofaka animals AND possibly eat
         for (int r = 0; r < rowCount; r++) {
             for (int c = 0; c < colCount; c++) {
-                if (cellTable[r][c].getUser() instanceof Herbivore && !((Herbivore) cellTable[r][c].getUser()).getMoved()) {
+                if (cellTable[r][c].getUser() instanceof Herbivore 
+                        && !((Herbivore) cellTable[r][c]
+                                .getUser()).getMoved()) {
                     ((Herbivore) cellTable[r][c].getUser()).move();
                 }
             }
         }
     }
      
-    
+    /**
+     * getter for row count.
+     * @return rowCount as int.
+     */
     public int getRowCount() {
         return rowCount;
     }
 
+    /**
+     * getter for col count.
+     * @return colCount as int.
+     */
     public int getColCount() {
         return colCount;
     }
 
-       public Cell getCellAt(final int row, final int col) {
+    /**
+     * getter for cell at specific location.
+     * @param row of type int.
+     * @param col of type int.
+     * @return Cell as Cell.
+     */
+    public Cell getCellAt(final int row, final int col) {
         return cellTable[row][col];
     }
 }

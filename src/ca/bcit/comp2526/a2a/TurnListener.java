@@ -3,8 +3,23 @@ package ca.bcit.comp2526.a2a;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * TurnListener.java.
+ * 
+ *
+ * "I made this code longer than usual 
+ * because I lack time to make it short"
+ * @author Yevhen
+ * @version Oct 19, 2017
+ *
+ */
 public class TurnListener implements MouseListener {
     private GameFrame game;
+    
+    /**
+     * Constructor objects of type TurnListener.
+     * @param gameFrame of type GameFrame.
+     */
     public TurnListener(GameFrame gameFrame) {
         game = gameFrame;
     }
