@@ -7,10 +7,21 @@ import java.awt.Point;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-public class Cell extends JPanel{
+/**
+ * Cell.java.
+ * 
+ * Cell class for Game of Life, extends JPanel.
+ *
+ * "I made this code longer than usual 
+ * because I lack time to make it short"
+ * @author Yevhen
+ * @version Oct 19, 2017
+ *
+ */
+public class Cell extends JPanel {
 
     /**
-     * 
+     * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
     private Color cellColor;
@@ -19,6 +30,12 @@ public class Cell extends JPanel{
     private Cell[] surround;
     private World cellWorld;
 
+    /**
+     * Constructor for object of type Cell.
+     * @param world of type World.
+     * @param row of type int.
+     * @param column of type int.
+     */
     public Cell(World world, int row, int column) {
         cellWorld = world;
         cellColor = Color.WHITE;
@@ -29,16 +46,28 @@ public class Cell extends JPanel{
         
     }
 
+    /**
+     * method to initialise JFrame properties.
+     */
     public void init() {
         setBackground(cellColor);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        setPreferredSize(new Dimension(20, 20));
+        setPreferredSize(new Dimension(
+                Integer.valueOf("20"), Integer.valueOf("20")));
     }
     
+    /**
+     * Getter for cell location.
+     * @return point of type point.
+     */
     public Point getLocation() {
         return point;
     }
     
+    /**
+     * Getter for adjacent cells of the cell.
+     * @return Cell[] as adjacent cell array.
+     */
     public Cell[] getAdjacentCells() {
         if (point.x == 0 && point.y == 0) {
             surround = new Cell[3];
@@ -110,12 +139,17 @@ public class Cell extends JPanel{
         int count = 0;
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].getUser() instanceof Plant) {
-                count ++;
+                count++;
             }
         }
         return count;
     }
     
+    /**
+     * Getter for empty cells count.
+     * @param arr of type Cell[].
+     * @return number of empty cells as int.
+     */
     public int getEmptyCount(Cell[] arr) {
         if (arr.length == 3) {
             return 0;
@@ -123,20 +157,32 @@ public class Cell extends JPanel{
         int count = 0;
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].getUser() instanceof Empty) {
-                count ++;
+                count++;
             }
         }
         return count;
     }
     
+    /**
+     * Setter for user of the cell.
+     * @param j as Object j.
+     */
     public void setUser(Object j) {
         cellUser = j;
     }
     
+    /**
+     * Setter for color.
+     * @param c of type Color.
+     */
     public void setColor(Color c) {
         cellColor = c;
     }
     
+    /**
+     * getter for cell user.
+     * @return cellUser as Object.
+     */
     public Object getUser() {
         return cellUser;
     }

@@ -11,6 +11,7 @@ public class World {
 
     private int rnJesus;
 
+   
     public World(final int width, final int hight) {
         rowCount = hight;
         colCount = width;
