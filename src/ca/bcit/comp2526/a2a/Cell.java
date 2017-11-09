@@ -3,6 +3,7 @@ package ca.bcit.comp2526.a2a;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -26,8 +27,8 @@ public class Cell extends JPanel {
     private static final long serialVersionUID = 1L;
     private Color cellColor;
     private Point point;
-    private Object cellUser;
-    private Cell[] surround;
+    private Element cellUser;
+    private ArrayList<Cell> surround;
     private World cellWorld;
 
     /**
@@ -48,6 +49,11 @@ public class Cell extends JPanel {
         point.x = row;
         point.y = column;
 
+    }
+    
+    public Cell() {
+        cellUser = null;
+        point = new Point();
     }
 
     /**
@@ -74,133 +80,29 @@ public class Cell extends JPanel {
      * 
      * @return Cell[] as adjacent cell array.
      */
-    public Cell[] getAdjacentCells() {
-        if ((point.x == 0 && point.y == 0)
-                || (point.x == 0 && point.y == cellWorld.getColCount() - 1)
-                || (point.x == cellWorld.getRowCount() - 1
-                        && point.y == cellWorld.getColCount() - 1)
-                || (point.x == cellWorld.getRowCount() - 1 && point.y == 0)) {
-            return getCorner();
-        } else if ((point.x == 0) || (point.y == cellWorld.getColCount() - 1)
-                || (point.x == cellWorld.getRowCount() - 1) || (point.y == 0)) {
-            return getSide();
-        } else {
-            surround = new Cell[Integer.valueOf("8")];
-            surround[0] = cellWorld.getCellAt(point.x + 1, point.y);
-            surround[1] = cellWorld.getCellAt(point.x - 1, point.y);
-            surround[2] = cellWorld.getCellAt(point.x, point.y - 1);
-            surround[2 + 1] = cellWorld.getCellAt(point.x, point.y + 1);
-            surround[2 + 2] = cellWorld.getCellAt(point.x + 1, point.y + 1);
-            surround[2 + 2 + 1] = cellWorld.getCellAt(point.x + 1, point.y - 1);
-            surround[2 + 2 + 2] = cellWorld.getCellAt(point.x - 1, point.y + 1);
-            surround[2 + 2 + 2 + 1] = cellWorld.getCellAt(point.x - 1,
-                    point.y - 1);
-        }
-        return surround;
-    }
-
-    /**
-     * Check for getting cornered cell.
-     * 
-     * @return cell[].
-     */
-    private Cell[] getCorner() {
-        if (point.x == 0 && point.y == 0) {
-            surround = new Cell[Integer.valueOf("3")];
-            surround[0] = cellWorld.getCellAt(point.x + 1, point.y);
-            surround[1] = cellWorld.getCellAt(point.x, point.y + 1);
-            surround[2] = cellWorld.getCellAt(point.x + 1, point.y + 1);
-        } else if (point.x == 0 && point.y == cellWorld.getColCount() - 1) {
-            surround = new Cell[Integer.valueOf("3")];
-            surround[0] = cellWorld.getCellAt(point.x + 1, point.y);
-            surround[1] = cellWorld.getCellAt(point.x, point.y - 1);
-            surround[2] = cellWorld.getCellAt(point.x + 1, point.y - 1);
-        } else if (point.x == cellWorld.getRowCount() - 1
-                && point.y == cellWorld.getColCount() - 1) {
-            surround = new Cell[Integer.valueOf("3")];
-            surround[0] = cellWorld.getCellAt(point.x - 1, point.y);
-            surround[1] = cellWorld.getCellAt(point.x, point.y);
-            surround[2] = cellWorld.getCellAt(point.x, point.y - 1);
-        } else if (point.x == cellWorld.getRowCount() - 1 && point.y == 0) {
-            surround = new Cell[Integer.valueOf("3")];
-            surround[0] = cellWorld.getCellAt(point.x, point.y + 1);
-            surround[1] = cellWorld.getCellAt(point.x - 1, point.y + 1);
-            surround[2] = cellWorld.getCellAt(point.x - 1, point.y);
-        }
-        return surround;
-    }
-
-    /**
-     * Check for getting side cells.
-     * @return list of adjecent cells.
-     */
-    private Cell[] getSide() {
-        if (point.x == 0) {
-            surround = new Cell[Integer.valueOf("5")];
-            surround[0] = cellWorld.getCellAt(point.x, point.y - 1);
-            surround[1] = cellWorld.getCellAt(point.x, point.y + 1);
-            surround[2] = cellWorld.getCellAt(point.x + 1, point.y - 1);
-            surround[2 + 1] = cellWorld.getCellAt(point.x + 1, point.y + 1);
-            surround[2 + 2] = cellWorld.getCellAt(point.x + 1, point.y);
-        } else if (point.y == cellWorld.getColCount() - 1) {
-            surround = new Cell[Integer.valueOf("5")];
-            surround[0] = cellWorld.getCellAt(point.x + 1, point.y);
-            surround[1] = cellWorld.getCellAt(point.x - 1, point.y);
-            surround[2] = cellWorld.getCellAt(point.x, point.y - 1);
-            surround[2 + 1] = cellWorld.getCellAt(point.x + 1, point.y - 1);
-            surround[2 + 2] = cellWorld.getCellAt(point.x - 1, point.y - 1);
-        } else if (point.x == cellWorld.getRowCount() - 1) {
-            surround = new Cell[Integer.valueOf("5")];
-            surround[0] = cellWorld.getCellAt(point.x, point.y - 1);
-            surround[1] = cellWorld.getCellAt(point.x, point.y + 1);
-            surround[2] = cellWorld.getCellAt(point.x - 1, point.y);
-            surround[2 + 1] = cellWorld.getCellAt(point.x - 1, point.y + 1);
-            surround[2 + 2] = cellWorld.getCellAt(point.x - 1, point.y - 1);
-        } else if (point.y == 0) {
-            surround = new Cell[Integer.valueOf("5")];
-            surround[0] = cellWorld.getCellAt(point.x + 1, point.y);
-            surround[1] = cellWorld.getCellAt(point.x - 1, point.y);
-            surround[2] = cellWorld.getCellAt(point.x, point.y + 1);
-            surround[2 + 1] = cellWorld.getCellAt(point.x - 1, point.y + 1);
-            surround[2 + 2] = cellWorld.getCellAt(point.x + 1, point.y + 1);
-        }
-        return surround;
-    }
-
-    /**
-     * Getter for plant count.
-     * 
-     * @param arr
-     *            of type Cell.
-     * @return count of plants.
-     */
-    public int getPlantCount(Cell[] arr) {
-        if (arr.length == Integer.valueOf("3")) {
-            return 0;
-        }
-        int count = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i].getUser() instanceof Plant) {
-                count++;
+    public void  setAdjacentCells() {
+        surround = new ArrayList<Cell>();
+        for (int x = point.x -1; x <= point.x+1; x++) {
+            for (int y = point.y-1; y<= point.y+1; y++) {
+                if (!(x== point.x && y==point.y)) {
+                    if (x >= 0 && x < cellWorld.getRowCount()  && y >= 0 && y < cellWorld.getColCount()) {
+                        surround.add(cellWorld.getCellAt(x,y));
+                    }
+                }
             }
         }
-        return count;
     }
-
-    /**
-     * Getter for empty cells count.
-     * 
-     * @param arr
-     *            of type Cell[].
-     * @return number of empty cells as int.
-     */
-    public int getEmptyCount(Cell[] arr) {
-        if (arr.length == Integer.valueOf("3")) {
-            return 0;
-        }
+    
+    public ArrayList<Cell> getAdjecentCells() {
+        return surround;
+    }
+    
+    public int getElemCount(ArrayList<Cell> arr, eType t) {
         int count = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i].getUser() instanceof Empty) {
+        eType s;
+        for (int i = 0; i < arr.size(); i++) {
+            s = arr.get(i).getUser().getType();
+            if (arr.get(i).getUser().getType() == t) {
                 count++;
             }
         }
@@ -213,7 +115,7 @@ public class Cell extends JPanel {
      * @param j
      *            as Object j.
      */
-    public void setUser(Object j) {
+    public void setUser(Element j) {
         cellUser = j;
     }
 
@@ -232,7 +134,10 @@ public class Cell extends JPanel {
      * 
      * @return cellUser as Object.
      */
-    public Object getUser() {
+    public Element getUser() {
         return cellUser;
     }
+    
+    
+    
 }

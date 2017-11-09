@@ -12,15 +12,16 @@ import java.awt.Color;
  * @version Oct 19, 2017
  *
  */
-public class Empty {
+public class Empty extends Element {
     
     private Cell home;
-    
+    private eType type;
     /**
      * constructor for empty object.
      * @param location of type Cell.
      */
     public Empty(Cell location) {
+        type = eType.Empty;
         home = location;
         home.setUser(this);
         init();
@@ -40,5 +41,9 @@ public class Empty {
      */
     public void setCell(Cell location) {
         location.setUser(new Empty(location));
+    }
+    
+    public eType getType() {
+        return type;
     }
 }

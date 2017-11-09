@@ -1,6 +1,7 @@
 package ca.bcit.comp2526.a2a;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -13,15 +14,17 @@ import java.util.Random;
  * @version Oct 19, 2017
  *
  */
-public class Plant  {
+public class Plant extends Element  {
     
     private Cell home;
-    
+    private eType cType;
     /**
      * Constructor for object of type Plant.
      * @param location of type Cell.
      */
     public Plant(Cell location) {
+        super();
+        cType = eType.Plant;
         home = location;
         home.setUser(this);
         init();
@@ -33,6 +36,10 @@ public class Plant  {
     public void init() {
         home.setColor(Color.GREEN);
         home.setBackground(Color.GREEN);
+    }
+    
+    public eType getType() {
+        return cType;
     }
     
     /**
@@ -52,21 +59,21 @@ public class Plant  {
         int randomCount;
         int randomCheck;
         Random rand = new Random();
-        Cell[] adjCells;
-        adjCells = home.getAdjacentCells();
-        plantCount = home.getPlantCount(adjCells);
-        emptyCount = home.getEmptyCount(adjCells);
+        ArrayList<Cell> adjCells;
+        adjCells = home.getAdjecentCells();
+        plantCount = home.getElemCount(adjCells, eType.Plant);
+        emptyCount = home.getElemCount(adjCells, eType.Empty);
         if (emptyCount >= (2 + 1) && plantCount >= 2) {
             randomCount = 0;
             randomCheck = rand.nextInt(emptyCount) + 1;
             
             for (int i = 0; randomCount <= randomCheck; i++) {
                 
-                if (adjCells[i].getUser() instanceof Empty) {
+                if (adjCells.get(i).getUser().getType() == eType.Empty) {
                     randomCount++;
                 }
                 if (randomCount == randomCheck) {
-                    adjCells[i].setUser(new Plant(adjCells[i]));
+                    adjCells.get(i).setUser(new Plant(adjCells.get(i)));
                     break;
                 }
             }
