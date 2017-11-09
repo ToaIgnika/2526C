@@ -28,5 +28,12 @@ public class Herbivore extends Lifeform  {
         eType s[] = {eType.Plant};
         super.move(s);
     }
+    
+    public void getBorn() {
+        eType s[] = {eType.Plant};
+        int n[] = {2, 1, 2};
+        super.getBorn(s, n);
+     }
+    
 
 }

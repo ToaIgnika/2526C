@@ -13,4 +13,10 @@ public class Omnivore extends Lifeform {
         super.move(s);
     }
     
+    public void getBorn() {
+       eType s[] = {eType.Plant, eType.Herbivore, eType.Carnivore};
+       int n[] = {1, 3, 3};
+       super.getBorn(s, n);
+    }
+    
 }

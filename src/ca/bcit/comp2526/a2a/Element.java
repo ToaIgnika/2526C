@@ -30,7 +30,9 @@ public abstract class Element {
     int getLife() {
         return 0;
         }
+    void getBorn() {
     
+    }
     
     
     eType getType() {

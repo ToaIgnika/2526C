@@ -86,7 +86,7 @@ public class World {
                             .getLife() == 0) {
                         cellTable[r][c].setUser(new Empty(cellTable[r][c]));
                     }
-                }
+                }                 
             }
         }
         // step two - plague the plants
@@ -94,6 +94,8 @@ public class World {
             for (int c = 0; c < colCount; c++) {
                 if (cellTable[r][c].getUser().getType() == eType.Plant) {
                     ((Plant) cellTable[r][c].getUser()).pollinate();
+                } else {
+                    cellTable[r][c].getUser().getBorn();
                 }
             }
         }
