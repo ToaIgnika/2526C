@@ -1,7 +1,9 @@
 package ca.bcit.comp2526.a2b;
 
+import java.util.Iterator;
+
 /**
- * DoublyLinkedList.java.
+ * DoubleLinkedList.java.
  * 
  *
  * "I made this code longer than usual because I lack time to make it short"
@@ -11,10 +13,10 @@ package ca.bcit.comp2526.a2b;
  *
  * @param <E>
  */
-public class DoublyLinkedList<E> {
-    
+public class DoubleLinkedList<E> implements Iterable <E>{
+
     private static final int MAX_LENGTH = 25;
-    
+
     /**
      * node for head of the list.
      */
@@ -24,7 +26,7 @@ public class DoublyLinkedList<E> {
      */
     private Node<E> tail;
     /**
-     * node for current  item of the list.
+     * node for current item of the list.
      */
     private Node<E> current;
     private int length;
@@ -32,13 +34,14 @@ public class DoublyLinkedList<E> {
     /**
      * Default constructor.
      */
-    DoublyLinkedList() {
+    /*
+    DoubleLinkedList() {
         head = null;
         tail = null;
         current = null;
         length = 0;
     }
-
+*/
     /**
      * addToFront method.
      * 
@@ -49,7 +52,7 @@ public class DoublyLinkedList<E> {
      * @throws CouldNotRemoveException
      *             b.
      */
-    public void addToFront(E e)
+    public void addToFront2(E e)
             throws CouldNotAddException, CouldNotRemoveException {
 
         Node<E> temp = new Node<E>(e, null, null);
@@ -73,7 +76,36 @@ public class DoublyLinkedList<E> {
             head = temp;
             current = head;
         }
+    }
 
+    /**
+     * addToFront method.
+     * 
+     * @param e
+     *            of type E.
+     * @throws CouldNotAddException
+     *             a.
+     * @throws CouldNotRemoveException
+     *             b.
+     */
+    public void addToFront(E e) throws CouldNotAddException {
+
+        Node<E> temp = new Node<E>(e, null, null);
+        if (e == null) {
+            throw new CouldNotAddException();
+        }
+        if (head == null) {
+            head = temp;
+            tail = temp;
+            current = head;
+            length++;
+        } else {
+            temp.setPrev(head);
+            head.setNext(temp);
+            head = temp;
+            current = head;
+            length++;
+        }
     }
 
     /**
@@ -90,6 +122,7 @@ public class DoublyLinkedList<E> {
             Node<E> temp = head;
             head = head.getNext();
             head.setPrev(null);
+            length --;
             return temp.getData();
         }
     }
@@ -113,13 +146,15 @@ public class DoublyLinkedList<E> {
             tail.setNext(temp);
             tail = temp;
         }
-
+        length++;
     }
 
     /**
      * removeFromEnd method.
+     * 
      * @return removed data of type E.
-     * @throws CouldNotRemoveException a.
+     * @throws CouldNotRemoveException
+     *             a.
      */
     public E removeFromEnd() throws CouldNotRemoveException {
         if (tail == null) {
@@ -128,12 +163,14 @@ public class DoublyLinkedList<E> {
             Node<E> temp = tail;
             tail = tail.getNext();
             tail.setPrev(null);
+            length --;
             return temp.getData();
         }
     }
 
     /**
      * getter for head.
+     * 
      * @return head of type Node.
      */
     public Node<E> getTop() {
@@ -142,6 +179,7 @@ public class DoublyLinkedList<E> {
 
     /**
      * getter for current.
+     * 
      * @return current of type Node.
      */
     public Node<E> getCurrent() {
@@ -150,6 +188,7 @@ public class DoublyLinkedList<E> {
 
     /**
      * getter for previous current.
+     * 
      * @return current of type Node.
      */
     public E prevCurrent() {
@@ -163,6 +202,7 @@ public class DoublyLinkedList<E> {
 
     /**
      * getter for next current.
+     * 
      * @return current of type Node.
      */
     public E nextCurrent() {
@@ -184,21 +224,37 @@ public class DoublyLinkedList<E> {
         length = 0;
         System.out.println("cleared");
     }
-    
-    
-    //---fix dis shit
-    public Iterator<E> iterator() {
-        return null;
-        
-    }
-    
-    class Iterator<E> implements Iterable<Object> {
 
-        @Override
-        public java.util.Iterator iterator() {
-            
-            return null;
-        }
-        
+    public Iterator<E> iterator()  {
+        return new Iterator<E>() {
+            Node<E> current = head;
+
+            @Override
+            public boolean hasNext() {
+                return head.getNext() != null;
+            }
+
+            @Override
+            public E next() {
+                if (current == null) {
+                    return null;
+                }
+                E ret = current.getData();
+                current = current.getNext();
+                return ret;
+            }
+        };
+    }
+
+    public Node<E> getFirst() {
+        return head;
+    }
+
+    public Node<E> getLast() {
+        return tail;
+    }
+
+    public int size() {
+        return length;
     }
 }

@@ -41,6 +41,12 @@ public class Node<E> {
         this.next = next;
     }
 
+    public Node(E data) {
+        this.data = data;
+        this.prev = null;
+        this.next = null;
+    }
+    
     /**
      * Getter for data.
      * 
@@ -96,6 +102,11 @@ public class Node<E> {
      */
     void setNext(Node<E> next) {
         this.next = next;
+    }
+
+    public Object intValue() {
+        
+        return null;
     }
 
 }

@@ -22,7 +22,7 @@ public class GameFrame extends JPanel {
     private static final long serialVersionUID = 1L;
     private final World world;
     private Element[][] elementList;
-    private DoublyLinkedList<Element[][]> linklink;
+    private DoubleLinkedList<Element[][]> linklink;
 
     /**
      * Constructor for gameframe object.
@@ -37,7 +37,7 @@ public class GameFrame extends JPanel {
     public GameFrame(final World w)
             throws CouldNotAddException, CouldNotRemoveException {
         world = w;
-        linklink = new DoublyLinkedList<Element[][]>();
+        linklink = new DoubleLinkedList<Element[][]>();
         elementList = new Element[world.getRowCount()][world.getColCount()];
         getList();
         linklink.addToFront(deepCopy());
