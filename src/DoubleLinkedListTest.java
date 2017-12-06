@@ -10,10 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import ca.bcit.comp2526.a2b.CouldNotAddException;
-import ca.bcit.comp2526.a2b.CouldNotRemoveException;
-import ca.bcit.comp2526.a2b.DoubleLinkedList;
-import ca.bcit.comp2526.a2b.Node;
+import ca.bcit.comp2526.a2c.CouldNotAddException;
+import ca.bcit.comp2526.a2c.CouldNotRemoveException;
+import ca.bcit.comp2526.a2c.DoubleLinkedList;
+import ca.bcit.comp2526.a2c.Node;
 
 /**
  * DoubleLinkedListTest.
